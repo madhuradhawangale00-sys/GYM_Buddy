@@ -19,6 +19,18 @@ app.use((req,res,next)=>{
 
 app.use('/api/workouts/',workoutRoutes)
 
+//connect to db
+mongoose.connect(process.env.MONGO_URI).then(()=>{
+    //LISTE for request
+
+app.listen(PORT,()=>{
+    console.log(`Server is up and listening : http://localhost:${PORT} & connected to db`);
+    
+})
+})
+.catch((error)=>{console.log(error);
+})
+
 //routes
 app.get('/',(req,res)=>{
     res.json({msg:'Wecome to our app'})
@@ -27,9 +39,3 @@ app.get('/',(req,res)=>{
 //port no
 const PORT = process.env.PORT;
 
-//LISTE for request
-
-app.listen(PORT,()=>{
-    console.log(`Server is up and listening : http://localhost:${PORT}`);
-    
-})
