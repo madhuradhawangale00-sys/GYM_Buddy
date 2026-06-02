@@ -1,6 +1,7 @@
 // Importing express package
 const express = require('express')
 const dotenv = require('dotenv')
+const mongoose = require('mongoose')
 
 const workoutRoutes = require('./routes/workout')
 dotenv.config()
@@ -9,6 +10,7 @@ dotenv.config()
 const app = express()
 
 //middleware
+app.use(express.json())
 app.use((req,res,next)=>{
     console.log(req.path, req.method)
     next()
