@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
+import { useWorkoutsContext } from '../hooks/useWorkoutsContext'
 
 const WorkoutForm = () => {
+    
+    const { dispatch } = useWorkoutsContext()
 
     const [title, setTitle] = useState('')
     const [load, setLoad] = useState('')
     const [reps, setReps] = useState('')
     const [error, setError] = useState(null)
 
-    const handleSubmit = async(e) => {
+    const handleSubmit = async (e) => {
+
         e.preventDefault()
 
-        const workout = {title, load, reps}
+        const workout = { title, load, reps }
 
         const response = await fetch('/api/workouts', {
             method: 'POST',
@@ -20,60 +24,63 @@ const WorkoutForm = () => {
             }
         })
 
-        const json = await response.json();
+        const json = await response.json()
 
-        if(!response.ok){
+        if (!response.ok) {
             setError(json.error)
         }
 
-        if(response.ok){
+        if (response.ok) {
+
             setError(null)
             setTitle('')
             setLoad('')
             setReps('')
-            console.log('New Workout Added:', json);
+
+            console.log('New Workout Added:', json)
+
+            dispatch({
+                type: 'CREATE_WORKOUT',
+                payload: json
+            })
         }
     }
 
-  return (
-    <form className='create' onSubmit={handleSubmit}>
-        <h3>Add a new Workout</h3>
+    return (
+        <form className='create' onSubmit={handleSubmit}>
 
-        <label>
-            Exercise Title:
-        </label>
+            <h3>Add a new Workout</h3>
 
-        <input 
-            type='text' 
-            value={title} 
-            onChange={(e)=> setTitle(e.target.value)} 
-        />
+            <label>Exercise Title:</label>
 
-        <label>
-            Load (in Kg's):
-        </label>
+            <input
+                type='text'
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+            />
 
-        <input 
-            type='number' 
-            value={load} 
-            onChange={(e)=> setLoad(e.target.value)} 
-        />
+            <label>Load (in Kg's):</label>
 
-        <label>
-            Reps:
-        </label>
+            <input
+                type='number'
+                value={load}
+                onChange={(e) => setLoad(e.target.value)}
+            />
 
-        <input 
-            type='number' 
-            value={reps} 
-            onChange={(e)=> setReps(e.target.value)} 
-        />
+            <label>Reps:</label>
 
-        <button>Add Workout</button>
+            <input
+                type='number'
+                value={reps}
+                onChange={(e) => setReps(e.target.value)}
+            />
 
-        {error && <div className='error'>{error}</div>}
-    </form>
-  )
+            <button>Add Workout</button>
+
+            {error && <div className='error'>{error}</div>}
+
+        </form>
+    )
 }
 
 export default WorkoutForm
