@@ -110,3 +110,20 @@ div.error{
 input.error{
   border: 1px solid var(--error);
 }
+
+nav{
+  display: flex;
+  align-items: center;
+}
+
+nav a {
+    margin-left: 10px;
+}
+
+form.signup, form.login{
+  max-width: 500px;
+  margin: 50px auto;
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 25px;
+}
