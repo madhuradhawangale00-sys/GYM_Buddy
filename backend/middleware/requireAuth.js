@@ -7,12 +7,12 @@ const requireAuth = async(req, res, next) => {
 
     const {authorization} = req.headers
 
-    if(!authentication){
+    if(!authorization){
         return res.status(401).json({error:"Authentication token required"})
     }
 
     //Bearer hhdhgfh.dggfdhgf.hsfgdyy
-    const token = authentication.split(' ')[1]
+    const token = authorization.split(' ')[1]
 
     try{
         const {_id} = jwt.verify(token, process.env.SECRET)
