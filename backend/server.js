@@ -2,7 +2,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const mongoose = require('mongoose')
-
+const cors = require("cors");
 
 //Routes
 const workoutRoutes = require('./routes/workout')
@@ -23,6 +23,10 @@ app.use((req,res,next)=>{
     next()
     
 })
+app.use(cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true
+}));
 
 app.use('/api/workouts/',workoutRoutes)
 app.use('/api/user',userRoutes)
@@ -45,5 +49,5 @@ app.get('/',(req,res)=>{
 })
 
 //port no
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 4000;
 
